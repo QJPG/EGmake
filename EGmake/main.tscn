@@ -1,0 +1,279 @@
+[gd_scene load_steps=22 format=3 uid="uid://dw1hxhi6exthu"]
+
+[ext_resource type="StyleBox" uid="uid://c0kf348ue0u42" path="res://outset_box.tres" id="1_8265c"]
+[ext_resource type="Script" path="res://src/FrameView.gd" id="1_eggie"]
+[ext_resource type="Script" path="res://src/binds/bind_map_treeview.gd" id="2_5hafm"]
+[ext_resource type="StyleBox" uid="uid://nvx8lt4l6pog" path="res://inset_box.tres" id="2_bawf0"]
+[ext_resource type="FontFile" uid="uid://duvqm5fmrhqs0" path="res://misc/FagoSans-BF64fc137209a74.otf" id="3_onbtr"]
+[ext_resource type="Script" path="res://src/binds/bind_editmode_option.gd" id="3_uh4b1"]
+[ext_resource type="Script" path="res://src/btn_select_vmodedit.gd" id="5_28dob"]
+[ext_resource type="Texture2D" uid="uid://crinb5j7t2sw4" path="res://misc/icn_edit_move_view.png" id="6_sb7k3"]
+[ext_resource type="Script" path="res://src/wireframe_viewer.gd" id="6_uogli"]
+[ext_resource type="Texture2D" uid="uid://bh1di813owh3r" path="res://misc/icn_edit_addsector.png" id="7_2stpo"]
+[ext_resource type="Script" path="res://src/btn_select_vmodview.gd" id="7_x41r8"]
+[ext_resource type="Texture2D" uid="uid://c0bgck7o570ve" path="res://misc/icn_edit_vertex.png" id="8_wcm43"]
+[ext_resource type="Texture2D" uid="uid://d08s36xwjbxfv" path="res://misc/icn_edit_edge.png" id="9_3ab4f"]
+[ext_resource type="Texture2D" uid="uid://cm40obyxdd7kf" path="res://misc/icn_edit_face.png" id="10_508wj"]
+[ext_resource type="Script" path="res://src/desloc_vertex.gd" id="15_8pqqd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_us3nm"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.505882, 0.8, 0.8, 1)
+border_blend = true
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g45wc"]
+bg_color = Color(0.227451, 0.321569, 0.25098, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_23o4q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gbjwy"]
+
+[sub_resource type="Theme" id="Theme_513c0"]
+default_font = ExtResource("3_onbtr")
+default_font_size = 16
+Button/colors/font_color = Color(0.121569, 0.121569, 0.121569, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_us3nm")
+Button/styles/normal = ExtResource("1_8265c")
+Button/styles/pressed = ExtResource("2_bawf0")
+LineEdit/styles/normal = ExtResource("2_bawf0")
+LineEdit/styles/read_only = ExtResource("2_bawf0")
+Panel/styles/panel = SubResource("StyleBoxFlat_g45wc")
+PopupMenu/colors/font_color = Color(0, 0, 0, 1)
+PopupMenu/styles/panel = ExtResource("1_8265c")
+TextEdit/styles/focus = SubResource("StyleBoxEmpty_23o4q")
+TextEdit/styles/normal = ExtResource("2_bawf0")
+TextEdit/styles/read_only = SubResource("StyleBoxEmpty_gbjwy")
+Tree/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+Tree/colors/font_selected_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+Tree/constants/button_margin = 0
+Tree/constants/item_margin = 1
+Tree/styles/panel = ExtResource("2_bawf0")
+Tree/styles/selected = ExtResource("2_bawf0")
+Tree/styles/selected_focus = ExtResource("1_8265c")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5kaw"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_513c0")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_edit_lock_ = true
+
+[node name="BoxContainer" type="BoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+vertical = true
+
+[node name="MenuBar" type="HBoxContainer" parent="Panel/MarginContainer/BoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/MarginContainer/BoxContainer/MenuBar"]
+layout_mode = 2
+
+[node name="ViewOptions" type="OptionButton" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer2"]
+visible = false
+layout_mode = 2
+focus_mode = 0
+script = ExtResource("3_uh4b1")
+
+[node name="OpenMapSettings" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Map"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/BoxContainer/MenuBar"]
+layout_mode = 2
+
+[node name="BtSetVModEdit" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("6_sb7k3")
+script = ExtResource("5_28dob")
+
+[node name="BtSetVModEdit2" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("7_2stpo")
+script = ExtResource("5_28dob")
+mode = 1
+
+[node name="BtSetVModEdit3" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("8_wcm43")
+script = ExtResource("5_28dob")
+mode = 2
+
+[node name="BtSetVModEdit4" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("9_3ab4f")
+script = ExtResource("5_28dob")
+mode = 3
+
+[node name="BtSetVModEdit5" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("10_508wj")
+script = ExtResource("5_28dob")
+mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FrameView" type="Panel" parent="Panel/MarginContainer/BoxContainer/HBoxContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+focus_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q5kaw")
+script = ExtResource("1_eggie")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+split_offset = 170
+
+[node name="View0" type="SubViewportContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View0"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(598, 531)
+render_target_update_mode = 4
+
+[node name="WireframeViewer" type="Node2D" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View0/SubViewport" node_paths=PackedStringArray("camera_espectator", "viewport_frame")]
+script = ExtResource("6_uogli")
+camera_espectator = NodePath("Camera2D")
+viewport_frame = NodePath("../..")
+
+[node name="Camera2D" type="Camera2D" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View0/SubViewport/WireframeViewer"]
+
+[node name="BtSetWFViewMod" type="OptionButton" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View0" node_paths=PackedStringArray("wireframeviewer")]
+layout_mode = 2
+script = ExtResource("7_x41r8")
+wireframeviewer = NodePath("../SubViewport/WireframeViewer")
+
+[node name="View1" type="SubViewportContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View1"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(258, 531)
+render_target_update_mode = 4
+
+[node name="WireframeViewer" type="Node2D" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View1/SubViewport" node_paths=PackedStringArray("camera_espectator", "viewport_frame")]
+script = ExtResource("6_uogli")
+default_vmod_view = 6
+camera_espectator = NodePath("Camera2D")
+viewport_frame = NodePath("../..")
+
+[node name="Camera2D" type="Camera2D" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View1/SubViewport/WireframeViewer"]
+
+[node name="BtSetWFViewMod" type="OptionButton" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View1" node_paths=PackedStringArray("wireframeviewer")]
+layout_mode = 2
+script = ExtResource("7_x41r8")
+wireframeviewer = NodePath("../SubViewport/WireframeViewer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Tree" type="Tree" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+hide_root = true
+script = ExtResource("2_5hafm")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="deslocx" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.1
+allow_greater = true
+allow_lesser = true
+prefix = "X"
+suffix = "m"
+select_all_on_focus = true
+
+[node name="deslocy" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.1
+allow_greater = true
+allow_lesser = true
+prefix = "Y"
+suffix = "m"
+select_all_on_focus = true
+
+[node name="deslocz" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.1
+allow_greater = true
+allow_lesser = true
+prefix = "Z"
+suffix = "m"
+select_all_on_focus = true
+
+[node name="VertexDeslocXYZ" type="Node" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("dx", "dy", "dz")]
+script = ExtResource("15_8pqqd")
+dx = NodePath("../deslocx")
+dy = NodePath("../deslocy")
+dz = NodePath("../deslocz")
+
+[node name="ConsoleText" type="TextEdit" parent="Panel/MarginContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+focus_mode = 0
+placeholder_text = "[starting;;;]"
+editable = false
