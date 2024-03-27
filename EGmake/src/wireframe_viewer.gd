@@ -35,6 +35,7 @@ var has_focus := false
 var shift_pressed := false
 var selection : SelectionBox = null
 var sector_selection = null
+var ctrl_pressed := false
 
 func set_orthoplane_rot(rot : Vector3) -> void:
 	ortho_plane_rotation = rot
@@ -47,8 +48,8 @@ func move_camera(rel : Vector2) -> void:
 	if not has_focus:
 		return
 	
-	if not SetupMain.get_edit_mode_enabled(SetupMain.E_VWMODES.MOVEVIEW):
-		return
+	#if not SetupMain.get_edit_mode_enabled(SetupMain.E_VWMODES.MOVEVIEW):
+	#	return
 	
 	camera_espectator.position -= rel
 
@@ -74,7 +75,7 @@ func lock_cursor() -> void:
 			if not Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-func get_sector_vertices(id : int) -> Array[Array]:
+static func get_sector_vertices(id : int) -> Array[Array]:
 	var res : Array[Array]
 	var e : BaseEntity = SetupMain.map.get_entity(id)
 	
@@ -138,6 +139,9 @@ func select(at : Vector2) -> void:
 					var v_pos : Vector3 = vertices[i][1]
 					var v2_pos : Vector2 = get_3d_to_2d_view(v_pos)
 					
+					if not is_vertex_displayed(v_pos):
+						continue
+					
 					if (get_canvas_transform() * v2_pos).distance_to(at) < 30.0:
 						points.append([e.id, [v_name], gmouse.distance_to(v_pos)])
 			
@@ -166,6 +170,9 @@ func select(at : Vector2) -> void:
 				for i in range(lines.size()):
 					var v0 = e.get_keyvalue(lines[i][0]) as Vector3
 					var v1 = e.get_keyvalue(lines[i][1]) as Vector3
+					
+					if not (is_vertex_displayed(v0) and is_vertex_displayed(v1)):
+						continue
 					
 					var v2_0 = get_canvas_transform() * get_3d_to_2d_view(v0)
 					var v2_1 = get_canvas_transform() * get_3d_to_2d_view(v1)
@@ -266,10 +273,18 @@ func transform_selectors(movement : Vector2) -> void:
 
 func _ready():
 	viewport_frame.mouse_entered.connect(func():
+		viewport_frame.grab_focus()
+		
+		if not viewport_frame.has_focus():
+			return
+		
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			has_focus = true)
 	
 	viewport_frame.mouse_exited.connect(func():
+		if not viewport_frame.has_focus():
+			return
+		
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			has_focus = false)
 
@@ -290,10 +305,10 @@ func _unhandled_input(event):
 					b2_pressed = true
 				
 				MOUSE_BUTTON_WHEEL_UP:
-					zoom_camera(-0.2)
+					zoom_camera(0.2)
 				
 				MOUSE_BUTTON_WHEEL_DOWN:
-					zoom_camera(0.2)
+					zoom_camera(-0.2)
 					
 		else:
 			match event.button_index:
@@ -304,7 +319,7 @@ func _unhandled_input(event):
 					b2_pressed = false
 	
 	if event is InputEventMouseMotion:
-		if b1_pressed:
+		if b2_pressed and ctrl_pressed:
 			move_camera(event.relative)
 		
 		create_selection(get_global_mouse_position(), event.relative)
@@ -325,10 +340,19 @@ func _unhandled_input(event):
 				
 				KEY_R:
 					SetupMain.editor_settings[SetupMain.ED_TRANSFORM] = SetupMain.E_TRANS.ROTATE
+				
+				KEY_CTRL:
+					ctrl_pressed = true
 		else:
 			match event.keycode:
 				KEY_SHIFT:
 					shift_pressed = false
+				
+				KEY_CTRL:
+					ctrl_pressed = false
+
+func is_vertex_displayed(v : Vector3) -> bool:
+	return v.y <= SetupMain.editor_settings[SetupMain.ED_YMIN]
 
 func get_vertices_on_selection() -> void:
 	if not selection:
@@ -343,6 +367,9 @@ func get_vertices_on_selection() -> void:
 		match SetupMain.editor_settings[SetupMain.ED_EDITMODE]:
 			SetupMain.E_VWMODES.EDIT_VERTEX:
 				for vdata in vertices:
+					if not is_vertex_displayed(vdata[1]):
+						continue
+					
 					if Rect2(selection.start, selection.dim()).abs().has_point(get_3d_to_2d_view(vdata[1])):
 						var s = SetupMain.Selectors.new()
 						s.entity_id = e.id
@@ -487,6 +514,9 @@ func draw_grid():
 		y = clamp(y, 0, get_viewport().size.y / grid_size)
 
 func draw_point(p : Vector3) -> void:
+	if not is_vertex_displayed(p):
+		return
+	
 	var col = Color.SKY_BLUE
 	col.a = 0.5
 	
@@ -508,10 +538,13 @@ func draw_point(p : Vector3) -> void:
 				break
 	
 	draw_circle(get_3d_to_2d_view(p), 2.0, col)
-	
-	draw_string(GUI_FONT, get_3d_to_2d_view(p), str(get_3d_to_2d_view(p)), HORIZONTAL_ALIGNMENT_CENTER, -1, 8, Color.WHITE)
+	if SetupMain.editor_settings[SetupMain.ED_DISPCOORDS]:
+		draw_string(GUI_FONT, get_3d_to_2d_view(p), str(get_3d_to_2d_view(p)), HORIZONTAL_ALIGNMENT_CENTER, -1, 16, Color.WHITE)
 
 func draw_segment(p0 : Vector3, p1 : Vector3, color = Color.DIM_GRAY) -> void:
+	if not (is_vertex_displayed(p0) and is_vertex_displayed(p1)):
+		return
+	
 	for slt in SetupMain.selecteds:
 		if not slt.mod == SetupMain.Selectors.SELT_EDGE:
 			continue
@@ -624,6 +657,6 @@ func _draw():
 	draw_selection()
 
 func _process(delta):
-	lock_cursor()
+	#lock_cursor()
 	
 	queue_redraw()

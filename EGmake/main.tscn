@@ -1,10 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://dw1hxhi6exthu"]
+[gd_scene load_steps=18 format=3 uid="uid://dw1hxhi6exthu"]
 
-[ext_resource type="StyleBox" uid="uid://c0kf348ue0u42" path="res://outset_box.tres" id="1_8265c"]
 [ext_resource type="Script" path="res://src/FrameView.gd" id="1_eggie"]
+[ext_resource type="Theme" uid="uid://basqed5p5kwfc" path="res://theme_classic.tres" id="1_lxy2s"]
 [ext_resource type="Script" path="res://src/binds/bind_map_treeview.gd" id="2_5hafm"]
-[ext_resource type="StyleBox" uid="uid://nvx8lt4l6pog" path="res://inset_box.tres" id="2_bawf0"]
-[ext_resource type="FontFile" uid="uid://duvqm5fmrhqs0" path="res://misc/FagoSans-BF64fc137209a74.otf" id="3_onbtr"]
 [ext_resource type="Script" path="res://src/binds/bind_editmode_option.gd" id="3_uh4b1"]
 [ext_resource type="Script" path="res://src/btn_select_vmodedit.gd" id="5_28dob"]
 [ext_resource type="Texture2D" uid="uid://crinb5j7t2sw4" path="res://misc/icn_edit_move_view.png" id="6_sb7k3"]
@@ -14,50 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://c0bgck7o570ve" path="res://misc/icn_edit_vertex.png" id="8_wcm43"]
 [ext_resource type="Texture2D" uid="uid://d08s36xwjbxfv" path="res://misc/icn_edit_edge.png" id="9_3ab4f"]
 [ext_resource type="Texture2D" uid="uid://cm40obyxdd7kf" path="res://misc/icn_edit_face.png" id="10_508wj"]
+[ext_resource type="Script" path="res://src/setup_edit_ymin.gd" id="14_53clo"]
 [ext_resource type="Script" path="res://src/desloc_vertex.gd" id="15_8pqqd"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_us3nm"]
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.505882, 0.8, 0.8, 1)
-border_blend = true
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g45wc"]
-bg_color = Color(0.227451, 0.321569, 0.25098, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_23o4q"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gbjwy"]
-
-[sub_resource type="Theme" id="Theme_513c0"]
-default_font = ExtResource("3_onbtr")
-default_font_size = 16
-Button/colors/font_color = Color(0.121569, 0.121569, 0.121569, 1)
-Button/styles/focus = SubResource("StyleBoxFlat_us3nm")
-Button/styles/normal = ExtResource("1_8265c")
-Button/styles/pressed = ExtResource("2_bawf0")
-LineEdit/styles/normal = ExtResource("2_bawf0")
-LineEdit/styles/read_only = ExtResource("2_bawf0")
-Panel/styles/panel = SubResource("StyleBoxFlat_g45wc")
-PopupMenu/colors/font_color = Color(0, 0, 0, 1)
-PopupMenu/styles/panel = ExtResource("1_8265c")
-TextEdit/styles/focus = SubResource("StyleBoxEmpty_23o4q")
-TextEdit/styles/normal = ExtResource("2_bawf0")
-TextEdit/styles/read_only = SubResource("StyleBoxEmpty_gbjwy")
-Tree/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
-Tree/colors/font_selected_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
-Tree/constants/button_margin = 0
-Tree/constants/item_margin = 1
-Tree/styles/panel = ExtResource("2_bawf0")
-Tree/styles/selected = ExtResource("2_bawf0")
-Tree/styles/selected_focus = ExtResource("1_8265c")
+[ext_resource type="Script" path="res://src/session_historic.gd" id="15_27gd1"]
+[ext_resource type="Script" path="res://src/set_disp_coords.gd" id="15_dimre"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5kaw"]
 bg_color = Color(0, 0, 0, 1)
@@ -69,7 +27,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_513c0")
+theme = ExtResource("1_lxy2s")
+metadata/_edit_lock_ = true
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -118,6 +77,7 @@ text = "Map"
 layout_mode = 2
 
 [node name="BtSetVModEdit" type="Button" parent="Panel/MarginContainer/BoxContainer/MenuBar/HBoxContainer"]
+visible = false
 layout_mode = 2
 icon = ExtResource("6_sb7k3")
 script = ExtResource("5_28dob")
@@ -179,7 +139,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View0"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(598, 531)
+size = Vector2i(598, 502)
 render_target_update_mode = 4
 
 [node name="WireframeViewer" type="Node2D" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View0/SubViewport" node_paths=PackedStringArray("camera_espectator", "viewport_frame")]
@@ -203,7 +163,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View1"]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(258, 531)
+size = Vector2i(258, 502)
 render_target_update_mode = 4
 
 [node name="WireframeViewer" type="Node2D" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/HSplitContainer/View1/SubViewport" node_paths=PackedStringArray("camera_espectator", "viewport_frame")]
@@ -222,13 +182,16 @@ wireframeviewer = NodePath("../SubViewport/WireframeViewer")
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Tree" type="Tree" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Tree" type="Tree" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("viewframe1", "viewframe2")]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
+allow_reselect = true
 hide_root = true
 script = ExtResource("2_5hafm")
+viewframe1 = NodePath("../../HSplitContainer/View0")
+viewframe2 = NodePath("../../HSplitContainer/View1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -238,42 +201,71 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="deslocx" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="deslocx" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 step = 0.1
 allow_greater = true
 allow_lesser = true
-prefix = "X"
+prefix = "X:"
 suffix = "m"
 select_all_on_focus = true
 
-[node name="deslocy" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="deslocy" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 step = 0.1
 allow_greater = true
 allow_lesser = true
-prefix = "Y"
+prefix = "Y:"
 suffix = "m"
 select_all_on_focus = true
 
-[node name="deslocz" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="deslocz" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 step = 0.1
 allow_greater = true
 allow_lesser = true
-prefix = "Z"
+prefix = "Z:"
 suffix = "m"
 select_all_on_focus = true
 
-[node name="VertexDeslocXYZ" type="Node" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("dx", "dy", "dz")]
+[node name="VertexDeslocXYZ" type="Node" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer" node_paths=PackedStringArray("dx", "dy", "dz")]
 script = ExtResource("15_8pqqd")
 dx = NodePath("../deslocx")
 dy = NodePath("../deslocy")
 dz = NodePath("../deslocz")
 
-[node name="ConsoleText" type="TextEdit" parent="Panel/MarginContainer/BoxContainer"]
-custom_minimum_size = Vector2(0, 64)
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-focus_mode = 0
-placeholder_text = "[starting;;;]"
-editable = false
+
+[node name="ymin" type="SpinBox" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+tooltip_text = "Min Vertex Y to display on scene."
+min_value = -9999.0
+max_value = 9999.0
+step = 0.1
+value = 100.0
+prefix = "Y-Min:"
+suffix = "m"
+
+[node name="SEditYMin" type="Node" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer2/ymin" node_paths=PackedStringArray("num_edit")]
+script = ExtResource("14_53clo")
+num_edit = NodePath("..")
+
+[node name="showcoords" type="CheckButton" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Display Vertex Coords"
+
+[node name="DisplayCoordsToggler" type="Node" parent="Panel/MarginContainer/BoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer2/showcoords" node_paths=PackedStringArray("button")]
+script = ExtResource("15_dimre")
+button = NodePath("..")
+
+[node name="Historic" type="ItemList" parent="Panel/MarginContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 93)
+layout_mode = 2
+
+[node name="SessionHistoric" type="Node" parent="." node_paths=PackedStringArray("list")]
+script = ExtResource("15_27gd1")
+list = NodePath("../Panel/MarginContainer/BoxContainer/Historic")

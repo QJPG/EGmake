@@ -8,7 +8,11 @@ signal entity_list_updated(is_removed, entity_id)
 var entities : Array[BaseEntity]
 
 func _init():
-	create_sector(AABB(Vector3(16, 0, 16), Vector3(55, 10, 100)))
+	pass
+
+func start() -> void:
+	#create_sector(AABB(Vector3(16, 0, 16), Vector3(55, 10, 100)))
+	return
 
 func create_sector(dimension : AABB) -> BaseEntity:
 	var e = BaseEntity.new()
@@ -31,17 +35,34 @@ func create_sector(dimension : AABB) -> BaseEntity:
 	e.set_keyvalue("Cell V2", dimension.position + dimension.size * Vector3(1, 1, 1))
 	e.set_keyvalue("Cell V3", dimension.position + dimension.size * Vector3(0, 1, 1))
 	
-	entities.append(e)
+	add_entity(e)
 	
 	entity_list_updated.emit(false, e.id)
 	
 	return e
+
+func add_entity(e : BaseEntity) -> void:
+	entities.append(e)
+	
+	var h = SetupMain.Historic.new()
+	h.type = h.TENTADDED
+	h.message = "Entity created"
+	h.value = e
+	
+	SetupMain.add_historic(h)
 
 func remove_entity(id : int) -> void:
 	for i in range(entities.size()):
 		if entities[i].id == id:
 			entities.erase(entities[i])
 			entity_list_updated.emit(true, id)
+			
+			var h = SetupMain.Historic.new()
+			h.type = h.TENTREMV
+			h.message = "Entity removed"
+			h.value = entities[i]
+			
+			SetupMain.add_historic(h)
 			return
 
 func get_entity(id : int) -> BaseEntity:

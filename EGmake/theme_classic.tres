@@ -1,0 +1,48 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://basqed5p5kwfc"]
+
+[ext_resource type="StyleBox" uid="uid://c0kf348ue0u42" path="res://outset_box.tres" id="1_7b1ol"]
+[ext_resource type="StyleBox" uid="uid://nvx8lt4l6pog" path="res://inset_box.tres" id="2_qscet"]
+[ext_resource type="FontFile" uid="uid://duvqm5fmrhqs0" path="res://misc/FagoSans-BF64fc137209a74.otf" id="3_oxyxe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_us3nm"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.505882, 0.8, 0.8, 1)
+border_blend = true
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g45wc"]
+bg_color = Color(0.227451, 0.321569, 0.25098, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_23o4q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gbjwy"]
+
+[resource]
+default_font = ExtResource("3_oxyxe")
+default_font_size = 16
+Button/colors/font_color = Color(0.121569, 0.121569, 0.121569, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_us3nm")
+Button/styles/normal = ExtResource("1_7b1ol")
+Button/styles/pressed = ExtResource("2_qscet")
+LineEdit/styles/normal = ExtResource("2_qscet")
+LineEdit/styles/read_only = ExtResource("2_qscet")
+Panel/styles/panel = SubResource("StyleBoxFlat_g45wc")
+PopupMenu/colors/font_color = Color(0, 0, 0, 1)
+PopupMenu/styles/panel = ExtResource("1_7b1ol")
+TextEdit/styles/focus = SubResource("StyleBoxEmpty_23o4q")
+TextEdit/styles/normal = ExtResource("2_qscet")
+TextEdit/styles/read_only = SubResource("StyleBoxEmpty_gbjwy")
+Tree/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+Tree/colors/font_selected_color = Color(0.0745098, 0.0745098, 0.0745098, 1)
+Tree/constants/button_margin = 0
+Tree/constants/item_margin = 1
+Tree/styles/panel = ExtResource("2_qscet")
+Tree/styles/selected = ExtResource("2_qscet")
+Tree/styles/selected_focus = ExtResource("1_7b1ol")
